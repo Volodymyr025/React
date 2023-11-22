@@ -1,17 +1,15 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import style from "./CreateNewDessert.module.css";
 import { Button } from "@mui/material";
 import { validator } from "./Validator";
+import { addDataToServer } from "../component/PostToServer";
+import { Form, redirect, useNavigate } from "react-router-dom";
 
 
-const CreateNewDessert = (props) => {
-    const [formData, setFormData] = useState({
-        name: "",
-        calories: "",
-        fat: "",
-        carbs: "",
-        protein: "",
-    });
+
+const CreateNewDessert = ({ title }) => {
+    const [formData, setFormData] = useState({});
+    const navigate = useNavigate()
 
     const [nameState, setNameState] = useState(true)
     const [caloriesState, setCaloriesState] = useState(true)
@@ -22,14 +20,15 @@ const CreateNewDessert = (props) => {
 
     const hendlSubmit = (e) => {
         e.preventDefault();
-        props.dataHeandler(formData);
-        props.showHeandler(false);
+        addDataToServer(formData)
+        navigate('/')
     };
 
     return (
         <div className={style.beckground}>
-            <div className={style.main}>
-                <h1>Add new item</h1>
+
+            <Form method="post" className={style.main}>
+                <h1>{title}</h1>
                 <label>Name item</label>
                 <input
                     onChange={({ target }) => {
@@ -85,7 +84,7 @@ const CreateNewDessert = (props) => {
                     name="protein"
                 />
                 {<span>{!proteinState && "Protein must have 1-16 attribute"}</span>}
-                
+
 
                 <div className={style.btn}>
                     <Button
@@ -94,19 +93,42 @@ const CreateNewDessert = (props) => {
                         color="success"
                         disabled={!formData.name || !formData.calories || !formData.carbs || !formData.fat || !formData.protein}
                     >
-                        Add
+                        Save
                     </Button>
                     <Button
-                        onClick={() => props.showHeandler(false)}
+                        onClick={() => navigate('/')}
                         variant="outlined"
                         color="error"
                     >
                         Close
                     </Button>
                 </div>
-            </div>
+            </Form>
         </div>
     );
 };
 
 export default CreateNewDessert;
+
+export const action = async ({request, params}) => {
+    console.log('dsads')
+    const data = await request.formData()
+
+    const itemData = {
+        name: data.get('name'),
+        calories: data.get('calories'),
+        fat: data.get('fat'),
+        carbs: data.get('carbs'),
+        protein: data.get('protein'),
+    }
+
+    const response = await fetch("https://todo-list-fef8c-default-rtdb.europe-west1.firebasedatabase.app/list.json", {
+        method: "POST",
+        body: JSON.stringify(itemData),
+        headers: {
+            'Content-Type': 'aplication/json'
+        }
+    })
+    return redirect('/')
+
+}

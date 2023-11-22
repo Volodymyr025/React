@@ -1,0 +1,12 @@
+.pageError {
+    text-align: center;
+    font-size: 3rem;
+}
+
+.errorNav {
+    margin: 5rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

@@ -6,8 +6,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button } from "@mui/material";
 import CustomizedMenus from './Options'
+import { useNavigate } from "react-router-dom";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -33,16 +33,31 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const CustomizedTables = ({ data, setData }) => {
 
+    const loadList = []
+
+      for (let key in data) {
+          loadList.push({
+              id: key,
+              name: data[key].name,
+              calories: data[key].calories,
+              fat: data[key].fat,
+              carbs: data[key].carbs,
+              protein: data[key].protein,
+          })
+      }
+
+    const navigate = useNavigate()
+
     const deleteList = (indexLine) => {
-        const newTable = data.filter((row,index) => index !== indexLine)
+        const newTable = data.filter((row, index) => index !== indexLine)
         setData(newTable)
     }
 
-    const dublicate = (duplLine) => {setData([...data,duplLine])}
-    
+    const dublicate = (duplLine) => { setData([...data, duplLine]) }
 
-    const archiveList = (archive) => {
-        data.filter((index) => console.log(index))
+
+    const edit = (indexLine) => {
+        navigate(indexLine)
     }
 
     return (
@@ -60,8 +75,8 @@ const CustomizedTables = ({ data, setData }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.map((row, index) => (
-                            <StyledTableRow key={index} value={index} onClick={()=>archiveList(index)}>
+                        {loadList.map((row) => (
+                            <StyledTableRow key={row.id}>
                                 <StyledTableCell align="center" component="th" scope="row">
                                     {row.name}
                                 </StyledTableCell>
@@ -70,7 +85,7 @@ const CustomizedTables = ({ data, setData }) => {
                                 <StyledTableCell align="center">{row.carbs}</StyledTableCell>
                                 <StyledTableCell align="center">{row.protein}</StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <CustomizedMenus delete={() => deleteList(index)} dublicate={()=>dublicate(row)} />
+                                    <CustomizedMenus edit={() => edit('/' + row.id)} delete={() => deleteList(row.id)} dublicate={() => dublicate(row)} />
                                 </StyledTableCell>
                             </StyledTableRow>
                         ))}

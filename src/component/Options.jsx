@@ -10,6 +10,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { Link } from 'react-router-dom';
 
 
 const StyledMenu = styled((props) => (
@@ -86,15 +87,15 @@ export default function CustomizedMenus(props) {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose} disableRipple>
+                <MenuItem onClick={() => { props.edit(); handleClose() }} disableRipple>
                     <EditIcon />
-                    Edit
+                        Edit
                 </MenuItem>
                 <MenuItem onClick={handleClose} disableRipple>
                     <FavoriteIcon />
                     Favorite
                 </MenuItem>
-                <MenuItem onClick={()=>{props.dublicate(); handleClose()}} disableRipple>
+                <MenuItem onClick={() => { props.dublicate(); handleClose() }} disableRipple>
                     <FileCopyIcon />
                     Duplicate
                 </MenuItem>

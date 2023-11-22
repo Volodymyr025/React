@@ -1,5 +1,12 @@
-
-.active{
+.navigation{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    width: 7rem;
+}
+.navigation.active{
     background-color: #5c5cb030;
     border-radius: 10px;
 }
