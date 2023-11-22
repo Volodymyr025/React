@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
+import { useLoaderData } from 'react-router-dom'
+import CustomizedTables from '../component/Table'
 
 const Archive = () => {
-    const [desert, setDesert] = useState([])
+    const list = useLoaderData()
     return (
-        <ul>
-            {desert.map((meal,index) => <li key={index}>{meal}</li>)}
-        </ul>
+        <CustomizedTables data={list}/>
     )
 }
 

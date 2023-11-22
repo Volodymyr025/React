@@ -91,7 +91,7 @@ export default function CustomizedMenus(props) {
                     <EditIcon />
                         Edit
                 </MenuItem>
-                <MenuItem onClick={handleClose} disableRipple>
+                <MenuItem onClick={()=>{props.favorite(); handleClose()}} disableRipple>
                     <FavoriteIcon />
                     Favorite
                 </MenuItem>
@@ -100,7 +100,7 @@ export default function CustomizedMenus(props) {
                     Duplicate
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
-                <MenuItem onClick={handleClose} disableRipple>
+                <MenuItem onClick={() => { props.archive(); handleClose() }} disableRipple>
                     <ArchiveIcon />
                     Archive
                 </MenuItem>

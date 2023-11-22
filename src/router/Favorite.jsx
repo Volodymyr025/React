@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
+import CustomizedTables from '../component/Table'
+import { useLoaderData } from "react-router-dom";
 
 const Favorite = () => {
-    const [desert, setDesert] = useState([])
+    const list = useLoaderData()
     return (
-        <ul>
-            {desert.map((meal,index) => <li key={index}>{meal}</li>)}
-        </ul>
+        <CustomizedTables data={list}/>
     )
 }
 
 export default Favorite
+
+
+  
+  

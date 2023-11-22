@@ -17,13 +17,3 @@ const Home = () => {
 
 export default Home;
 
-export const loader = async () => {
-  const response = await fetch('https://todo-list-fef8c-default-rtdb.europe-west1.firebasedatabase.app/list.json')
-  if (!response.ok) {
-    //some Error
-  } else {
-    const resData = await response.json()
-    return resData
-    
-  }
-}

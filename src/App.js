@@ -2,11 +2,12 @@ import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Archive from "./router/Archive";
 import Root from "./component/Root";
-import Favorite from "./router/Favorite";
+import Favorite,{loader as loadFavoriteData} from "./router/Favorite";
 import Home, { loader as loadData } from "./router/Home";
 import ErrorPage from "./router/Error";
 import EditPage from "./router/EditPage";
-import CreateNewDessert from "./UI/CreateNewDessert";
+import CreateNewDessert, {action as addData} from "./UI/CreateNewDessert";
+import { addItem, loader,editItem } from "./component/FetchHeandler";
 
 const router = createBrowserRouter([
   {
@@ -14,14 +15,14 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <Home />, loader: loadData, },
-      { path: "favorite", element: <Favorite /> },
-      { path: "archive", element: <Archive /> },
+      { index: true, element: <Home />, loader: ()=>loader('list'), },
+      { path: "favorite", element: <Favorite />,loader:()=>loader('favorite')},
+      { path: "archive", element: <Archive />, loader:()=>loader('archive')},
       {
         path: "/:itemId",
-        children: [{ index: true, element: <EditPage /> }],
+        children: [{ index: true, element: <EditPage />, action:({request})=>{editItem(request,)}}],
       },
-      { path: "form", element: <CreateNewDessert title={"Add item"}/>,action:(params,request)=>{console.log(params)}},
+      { path: "form", element: <CreateNewDessert title={"Add item"}/>, action:addItem},
     ],
   },
 ]);
