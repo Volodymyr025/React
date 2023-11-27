@@ -8,7 +8,9 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import CustomizedMenus from "./Options";
 import { useNavigate, useLocation } from "react-router-dom";
-import { remove, actionPostHeandler } from "./FetchHeandler";
+import { remove, actionPostHeandler, editItem } from "./FetchHeandler";
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -30,7 +32,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const CustomizedTables = ({ data, setData }) => {
+const CustomizedTables = ({ data }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -67,17 +69,17 @@ const CustomizedTables = ({ data, setData }) => {
     navigate(location.pathname);
   };
 
-  const edit = (indexLine) => {
-    navigate(indexLine);
+  const edit = (id) => {
+    navigate(location.pathname === "/" ? "/list" + '/' + id : location.pathname + '/' + id)
   };
 
   const favoriteHeandler = (row) => {
     actionPostHeandler(row, "/favorite");
   };
 
-  const archiveHeandler = async(row,id) =>{
-   await actionPostHeandler(row, "/archive");
-   deleteHeandler(id)
+  const archiveHeandler = async (row, id) => {
+    await actionPostHeandler(row, "/archive");
+    deleteHeandler(id)
   }
 
   return (
@@ -88,6 +90,7 @@ const CustomizedTables = ({ data, setData }) => {
             <TableRow>
               <StyledTableCell align="center">
                 Dessert (100g serving)
+                <ArrowUpwardIcon/>
               </StyledTableCell>
               <StyledTableCell align="center">Calories</StyledTableCell>
               <StyledTableCell align="center">Fat&nbsp;(g)</StyledTableCell>
@@ -98,7 +101,7 @@ const CustomizedTables = ({ data, setData }) => {
           </TableHead>
           <TableBody>
             {loadList.map((row) => (
-              <StyledTableRow key={row.id}>
+              <StyledTableRow key={location.pathname === "/" ? "/list" + row.id : location.pathname + row.id}>
                 <StyledTableCell align="center" component="th" scope="row">
                   {row.name}
                 </StyledTableCell>
@@ -108,11 +111,11 @@ const CustomizedTables = ({ data, setData }) => {
                 <StyledTableCell align="center">{row.protein}</StyledTableCell>
                 <StyledTableCell align="center">
                   <CustomizedMenus
-                    edit={() => edit("/" + row.id)}
+                    edit={() => edit(row.id)}
                     delete={() => deleteHeandler(row.id)}
                     dublicate={() => dublicate(row)}
                     favorite={() => favoriteHeandler(row)}
-                    archive={()=> archiveHeandler(row,row.id)}
+                    archive={() => archiveHeandler(row, row.id)}
                   />
                 </StyledTableCell>
               </StyledTableRow>

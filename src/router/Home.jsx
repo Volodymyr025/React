@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import CustomizedTables from "../component/Table";
 import AddBtn from "../component/AddBtn";
 import { useLoaderData } from "react-router-dom";
@@ -7,9 +7,10 @@ import { useLoaderData } from "react-router-dom";
 const Home = () => {
   const list = useLoaderData()
   
+  
   return (
     <>
-      <CustomizedTables data={list} />
+      {!list ? <h3 style={{textAlign:"center",fontSize:35}}>Add some desert</h3> : <CustomizedTables data={list} />}
       <AddBtn />
     </>
   );

@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
-import { useLoaderData } from 'react-router-dom'
+import React from 'react'
+import { useLoaderData, useLocation } from 'react-router-dom'
 import CustomizedTables from '../component/Table'
 
 const Archive = () => {
     const list = useLoaderData()
     return (
-        <CustomizedTables data={list}/>
+        <>
+        {!list ? <h3 style={{textAlign:"center",fontSize:35}}>Add some desert</h3> : <CustomizedTables data={list}/>}
+        </>
     )
 }
 

@@ -2,10 +2,16 @@ import { useState } from "react";
 import style from "./CreateNewDessert.module.css";
 import { Button } from "@mui/material";
 import { validator } from "./Validator";
-import { Form, redirect, useNavigate } from "react-router-dom";
+import { Form, redirect, useLocation, useNavigate } from "react-router-dom";
 
-const CreateNewDessert = ({ title }) => {
-  const [formData, setFormData] = useState({});
+const CreateNewDessert = ({ title, method }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    calories: '',
+    fat: '',
+    carbs: '',
+    protein: '',
+  });
   const navigate = useNavigate();
 
   const [nameState, setNameState] = useState(true);
@@ -14,10 +20,9 @@ const CreateNewDessert = ({ title }) => {
   const [carbsState, setCarbsState] = useState(true);
   const [proteinState, setProteinState] = useState(true);
 
-
   return (
     <div className={style.beckground}>
-      <Form method="post" className={style.main}>
+      <Form method={method} className={style.main}>
         <h1>{title}</h1>
         <label>Name item</label>
         <input
@@ -85,7 +90,7 @@ const CreateNewDessert = ({ title }) => {
 
         <div className={style.btn}>
           <Button
-           type="submit"
+            type="submit"
             variant="contained"
             color="success"
             disabled={
@@ -114,3 +119,34 @@ const CreateNewDessert = ({ title }) => {
 export default CreateNewDessert;
 
 
+export const action = async (location, request, params) => {
+  const method = request.method
+  const data = await request.formData();
+
+  const itemData = {
+    name: data.get("name"),
+    calories: data.get("calories"),
+    fat: data.get("fat"),
+    carbs: data.get("carbs"),
+    protein: data.get("protein"),
+  };
+
+  let url = 'https://todo-list-fef8c-default-rtdb.europe-west1.firebasedatabase.app/list.json'
+
+  if (method === "PATCH") {
+    url = 'https://todo-list-fef8c-default-rtdb.europe-west1.firebasedatabase.app/' + location + '/' + params.itemId + '.json'
+  }
+
+
+  const response = await fetch(
+    url,
+    {
+      method: method,
+      body: JSON.stringify(itemData),
+      headers: {
+        "Content-Type": "aplication/json",
+      },
+    }
+  );
+  return redirect(location === 'list' ? '/' : '/' + location);
+};
