@@ -49,6 +49,13 @@ const CustomizedTables = ({ data }) => {
     });
   }
 
+  const sort = (line) =>{
+    for (let key of loadList) {
+      console.log(key)
+    }
+    
+  }
+
   const deleteHeandler = async (indexLine) => {
     const confirm = window.confirm("Are you shure???");
     if (confirm) {
@@ -90,12 +97,12 @@ const CustomizedTables = ({ data }) => {
             <TableRow>
               <StyledTableCell align="center">
                 Dessert (100g serving)
-                <ArrowUpwardIcon/>
+                <ArrowUpwardIcon onClick={()=>sort()}/>
               </StyledTableCell>
-              <StyledTableCell align="center">Calories</StyledTableCell>
-              <StyledTableCell align="center">Fat&nbsp;(g)</StyledTableCell>
-              <StyledTableCell align="center">Carbs&nbsp;(g)</StyledTableCell>
-              <StyledTableCell align="center">Protein&nbsp;(g)</StyledTableCell>
+              <StyledTableCell align="center">Calories<ArrowUpwardIcon onClick={sort}/></StyledTableCell>
+              <StyledTableCell align="center">Fat&nbsp;(g)<ArrowUpwardIcon onClick={sort}/></StyledTableCell>
+              <StyledTableCell align="center">Carbs&nbsp;(g)<ArrowUpwardIcon onClick={sort}/></StyledTableCell>
+              <StyledTableCell align="center">Protein&nbsp;(g)<ArrowUpwardIcon onClick={sort}/></StyledTableCell>
               <StyledTableCell align="center">Options</StyledTableCell>
             </TableRow>
           </TableHead>

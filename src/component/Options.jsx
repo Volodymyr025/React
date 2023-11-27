@@ -10,7 +10,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 const StyledMenu = styled((props) => (
@@ -55,6 +55,7 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function CustomizedMenus(props) {
+const location = useLocation()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -63,6 +64,7 @@ export default function CustomizedMenus(props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    
 
     return (
         <div>
@@ -91,19 +93,19 @@ export default function CustomizedMenus(props) {
                     <EditIcon />
                         Edit
                 </MenuItem>
-                <MenuItem onClick={()=>{props.favorite(); handleClose()}} disableRipple>
+                {location.pathname !== '/favorite' && <MenuItem onClick={()=>{props.favorite(); handleClose()}} disableRipple>
                     <FavoriteIcon />
                     Favorite
-                </MenuItem>
+                </MenuItem>}
                 <MenuItem onClick={() => { props.dublicate(); handleClose() }} disableRipple>
                     <FileCopyIcon />
                     Duplicate
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
-                <MenuItem onClick={() => { props.archive(); handleClose() }} disableRipple>
+                {location.pathname !== '/archive' && <MenuItem onClick={() => { props.archive(); handleClose() }} disableRipple>
                     <ArchiveIcon />
                     Archive
-                </MenuItem>
+                </MenuItem>}
                 <MenuItem onClick={() => { props.delete(); handleClose() }} disableRipple>
                     <DeleteForeverIcon />
                     Delete
