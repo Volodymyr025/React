@@ -2,7 +2,7 @@ import { useState } from "react";
 import style from "./CreateNewDessert.module.css";
 import { Button } from "@mui/material";
 import { validator } from "./Validator";
-import { Form, redirect, useLocation, useNavigate } from "react-router-dom";
+import { Form, redirect, useNavigate } from "react-router-dom";
 
 const CreateNewDessert = ({ title, method }) => {
   const [formData, setFormData] = useState({

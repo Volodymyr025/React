@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import RestoreIcon from "@mui/icons-material/Restore";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import HomeIcon from "@mui/icons-material/Home";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import style from "./HeaderBar.module.css";
 
 export default function SimpleBottomNavigation() {

@@ -1,5 +1,5 @@
 import "./App.css";
-import { RouterProvider, createBrowserRouter, useLocation } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Archive from "./router/Archive";
 import Root from "./component/Root";
 import Favorite from "./router/Favorite";

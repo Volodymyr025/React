@@ -8,14 +8,15 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import CustomizedMenus from "./Options";
 import { useNavigate, useLocation } from "react-router-dom";
-import { remove, actionPostHeandler, editItem } from "./FetchHeandler";
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import { remove, actionPostHeandler } from "./FetchHeandler";
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import { useEffect, useState } from "react";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
+    cursor:'pointer'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -35,6 +36,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const CustomizedTables = ({ data }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [dataTable, setDataTable] = useState([])
+  const [dataOrder, setDataOrder] = useState('ASC')
 
   const loadList = [];
 
@@ -48,13 +51,8 @@ const CustomizedTables = ({ data }) => {
       protein: data[key].protein,
     });
   }
+  useEffect(() => { setDataTable(loadList) }, [])
 
-  const sort = (line) =>{
-    for (let key of loadList) {
-      console.log(key)
-    }
-    
-  }
 
   const deleteHeandler = async (indexLine) => {
     const confirm = window.confirm("Are you shure???");
@@ -89,25 +87,64 @@ const CustomizedTables = ({ data }) => {
     deleteHeandler(id)
   }
 
+  const sortNumber = (column) => {
+    if (dataOrder === 'ASC') {
+      const sorted = [...dataTable].sort((a, b) => {
+        return a[column] - b[column]
+      })
+      setDataTable(sorted)
+      setDataOrder('DSC')
+    }
+    if (dataOrder === 'DSC') {
+      const sorted = [...dataTable].sort((a, b) => {
+        return b[column] - a[column]
+      })
+      setDataTable(sorted)
+      setDataOrder('ASC')
+    }
+  }
+
+  const sortName = (column) => {
+    if (dataOrder === 'ASC') {
+      const sorted = [...dataTable].sort((a, b) => {
+        if (a[column].toLowerCase() > b[column].toLowerCase()) {
+          return 1
+        } else return -1
+      })
+      setDataTable(sorted)
+      setDataOrder('DSC')
+    }
+    if (dataOrder === 'DSC') {
+      const sorted = [...dataTable].sort((a, b) => {
+        if (a[column].toLowerCase() < b[column].toLowerCase()) {
+          return 1
+        } else return -1
+      })
+      setDataTable(sorted)
+      setDataOrder('ASC')
+    }
+
+  }
+
   return (
     <>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell align="center">
+              <StyledTableCell align="center" onClick={() => sortName('name')}>
                 Dessert (100g serving)
-                <ArrowUpwardIcon onClick={()=>sort()}/>
+                <SwapVertIcon />
               </StyledTableCell>
-              <StyledTableCell align="center">Calories<ArrowUpwardIcon onClick={sort}/></StyledTableCell>
-              <StyledTableCell align="center">Fat&nbsp;(g)<ArrowUpwardIcon onClick={sort}/></StyledTableCell>
-              <StyledTableCell align="center">Carbs&nbsp;(g)<ArrowUpwardIcon onClick={sort}/></StyledTableCell>
-              <StyledTableCell align="center">Protein&nbsp;(g)<ArrowUpwardIcon onClick={sort}/></StyledTableCell>
-              <StyledTableCell align="center">Options</StyledTableCell>
+              <StyledTableCell align="center" onClick={() => sortNumber('calories')}>Calories<SwapVertIcon /></StyledTableCell>
+              <StyledTableCell align="center" onClick={() => sortNumber('fat')}>Fat&nbsp;(g)<SwapVertIcon /></StyledTableCell>
+              <StyledTableCell align="center" onClick={() => sortNumber('carbs')}>Carbs&nbsp;(g)<SwapVertIcon /></StyledTableCell>
+              <StyledTableCell align="center" onClick={() => sortNumber('protein')}>Protein&nbsp;(g)<SwapVertIcon /></StyledTableCell>
+              <StyledTableCell align="center" onClick={() => sortNumber('options')}>Options</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {loadList.map((row) => (
+            {dataTable.map((row) => (
               <StyledTableRow key={location.pathname === "/" ? "/list" + row.id : location.pathname + row.id}>
                 <StyledTableCell align="center" component="th" scope="row">
                   {row.name}
