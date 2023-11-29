@@ -4,9 +4,10 @@ import AddBtn from "../component/AddBtn";
 import { useLoaderData } from "react-router-dom";
 
 
+
 const Home = () => {
   const list = useLoaderData()
-  
+
   
   return (
     <>

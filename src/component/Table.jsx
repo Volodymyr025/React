@@ -12,11 +12,12 @@ import { remove, actionPostHeandler } from "./FetchHeandler";
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { useEffect, useState } from "react";
 
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    cursor:'pointer'
+    cursor: 'pointer'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -39,19 +40,21 @@ const CustomizedTables = ({ data }) => {
   const [dataTable, setDataTable] = useState([])
   const [dataOrder, setDataOrder] = useState('ASC')
 
-  const loadList = [];
 
-  for (let key in data) {
-    loadList.push({
-      id: key,
-      name: data[key].name,
-      calories: data[key].calories,
-      fat: data[key].fat,
-      carbs: data[key].carbs,
-      protein: data[key].protein,
-    });
-  }
-  useEffect(() => { setDataTable(loadList) }, [])
+  useEffect(() => {
+    const loadList = [];
+
+    for (let key in data) {
+      loadList.push({
+        id: key,
+        name: data[key].name,
+        calories: data[key].calories,
+        fat: data[key].fat,
+        carbs: data[key].carbs,
+        protein: data[key].protein,
+      });
+    } setDataTable(loadList)
+  }, [data])
 
 
   const deleteHeandler = async (indexLine) => {
